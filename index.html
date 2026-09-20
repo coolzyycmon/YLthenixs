@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yalisthenixs — Complete Calisthenics Course MVP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Header / Top Bar -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <button id="mobile-menu-toggle" class="icon-btn mobile-only" aria-label="Toggle Navigation">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="brand">
+                    <span class="brand-badge">⚡ MVP</span>
+                    <h1 class="brand-name">YALISTHENIXS</h1>
+                </div>
+            </div>
+
+            <!-- Global Progress Indicator -->
+            <div class="header-progress">
+                <div class="progress-info">
+                    <span class="progress-label">Course Mastery</span>
+                    <span id="global-progress-percent" class="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="global-progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <!-- Top Actions -->
+            <div class="header-actions">
+                <button id="search-trigger-btn" class="btn btn-secondary btn-icon" title="Search lessons (Ctrl+K)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <span class="desktop-only">Search</span>
+                    <kbd class="desktop-only">⌘K</kbd>
+                </button>
+                <button id="print-course-btn" class="btn btn-secondary btn-icon" title="Print or Save as PDF">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <span class="desktop-only">Print / PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout Container -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="app-sidebar">
+            <div class="sidebar-header">
+                <h2>Modules Map</h2>
+                <span id="modules-completed-count" class="badge">0 / 17 Done</span>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button id="nav-tab-course" class="nav-tab active" data-tab="course">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>Curriculum</span>
+                </button>
+                <button id="nav-tab-skills" class="nav-tab" data-tab="skills">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <span>Skill Tracker</span>
+                </button>
+            </div>
+
+            <!-- Module List Items -->
+            <nav id="modules-list" class="modules-list">
+                <!-- Dynamically populated by JS -->
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="reset-progress-btn" class="btn btn-text-danger btn-sm">Reset All Progress</button>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay for Mobile -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="app-main">
+            <!-- Course View Container -->
+            <div id="course-view" class="view-panel active">
+                <!-- Welcome Banner / Overview -->
+                <section class="welcome-banner">
+                    <div class="welcome-content">
+                        <span class="pill-tag">Self-Paced Masterclass</span>
+                        <h1>Master Bodyweight Training from Zero to Elite Skills</h1>
+                        <p>Learn the biophysics, mechanical leverage, progressive overload, and technical cues behind true bodyweight strength. Interactive lessons, quizzes, and skill tracking built into one minimal dark interface.</p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">17</span>
+                                <span class="stat-label">Modules</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">50+</span>
+                                <span class="stat-label">Progressions</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">17</span>
+                                <span class="stat-label">Knowledge Quizzes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="completed-lessons-stat">0</span>
+                                <span class="stat-label">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Active Module Reader / Viewer -->
+                <section id="module-viewer" class="module-viewer hidden">
+                    <div class="module-header-nav">
+                        <button id="back-to-overview-btn" class="btn btn-secondary btn-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                            Back to Overview
+                        </button>
+                        <div class="module-pager">
+                            <button id="prev-module-btn" class="btn btn-secondary btn-sm" disabled>Previous</button>
+                            <span id="current-module-badge" class="badge">Module 1 of 17</span>
+                            <button id="next-module-btn" class="btn btn-secondary btn-sm">Next</button>
+                        </div>
+                    </div>
+
+                    <article id="module-content" class="module-content">
+                        <!-- Populated by js/app.js -->
+                    </article>
+
+                    <!-- Interactive Quiz Box -->
+                    <div id="quiz-container" class="quiz-container">
+                        <!-- Populated by js/app.js -->
+                    </div>
+
+                    <!-- Lesson Footer Action -->
+                    <div class="module-footer-actions">
+                        <button id="toggle-complete-btn" class="btn btn-primary btn-lg">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>Mark Module Complete</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Module Cards Grid (Overview Mode) -->
+                <section id="overview-grid-section" class="overview-grid-section">
+                    <div class="section-title-row">
+                        <h2>Curriculum Roadmap</h2>
+                        <span class="subtitle">Select a module to start learning</span>
+                    </div>
+                    <div id="modules-grid" class="modules-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Skill Tracker View Container -->
+            <div id="skills-view" class="view-panel hidden">
+                <section class="skill-tracker-header">
+                    <h2>Calisthenics Skill Tracker</h2>
+                    <p>Track your progression level, current hold time or rep max, and targets for elite bodyweight skills.</p>
+                </section>
+
+                <div id="skills-grid" class="skills-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Search Modal Overlay -->
+    <div id="search-modal" class="search-modal hidden">
+        <div class="search-modal-backdrop" id="search-backdrop"></div>
+        <div class="search-modal-content">
+            <div class="search-input-wrapper">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="search-input" placeholder="Search lessons, progressions, muscles, or cues (e.g. 'scapular', 'planche', 'L-sit')..." autocomplete="off">
+                <button id="close-search-btn" class="icon-btn" aria-label="Close search">✕</button>
+            </div>
+            <div id="search-results" class="search-results">
+                <div class="search-placeholder">Type to search across all 17 modules and exercises...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/modulesData.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
